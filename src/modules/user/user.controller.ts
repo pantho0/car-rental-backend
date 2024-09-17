@@ -15,10 +15,10 @@ const createUser = async (req: Request, res: Response) => {
 
     const user = await UserServices.createUser({ name, email, password, phone, address } as TUser);
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "User registered successfully ",
-      data: user,
+      data: user.user,
     });
   } catch (err: any) {
     res.status(500).json({ message: err.message });

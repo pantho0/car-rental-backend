@@ -24,4 +24,21 @@ userSchema.methods.comparePassword = async function (candidatePassword: string) 
   return bcrypt.compare(candidatePassword, this.password);
 };
 
+userSchema.post("save", function (doc, next) {
+  doc.password = "";
+  next();
+});
+
+userSchema.post("find", function (docs) {
+  docs.forEach((doc: TUser) => {
+    doc.password = "";
+  });
+});
+
+userSchema.post("findOne", function (doc) {
+  if (doc) {
+    doc.password = "";
+  }
+});
+
 export const User = model("User", userSchema);
