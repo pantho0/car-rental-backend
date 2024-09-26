@@ -31,7 +31,24 @@ const getAllCars = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleCar = async (req: Request, res: Response) => {
+  try {
+    const carId = req.params.id;
+    const car = await Car.findById(carId);
+    if (!car || car.isDeleted) return res.status(404).json({ message: "Car not found" });
+    res.json({
+      success: true,
+      statusCode: 200,
+      message: "A Car retrieved successfully",
+      data: car,
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const carControllers = {
   createCar,
   getAllCars,
+  getSingleCar,
 };
