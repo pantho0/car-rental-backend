@@ -47,8 +47,25 @@ const getSingleCar = async (req: Request, res: Response) => {
   }
 };
 
+const updateCar = async (req: Request, res: Response) => {
+  try {
+    const updateCarId = req.params.id;
+    const car = await Car.findByIdAndUpdate(updateCarId, req.body, { new: true });
+    if (!car) return res.status(404).json({ message: "Car not found" });
+    res.json({
+      success: true,
+      statusCode: 200,
+      message: "Car updated successfully",
+      data: car,
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const carControllers = {
   createCar,
   getAllCars,
   getSingleCar,
+  updateCar,
 };
