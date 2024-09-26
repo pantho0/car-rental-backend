@@ -17,6 +17,21 @@ const createCar = async (req: Request, res: Response) => {
   }
 };
 
+const getAllCars = async (req: Request, res: Response) => {
+  try {
+    const car = await Car.find({ isDeleted: false });
+    res.json({
+      success: true,
+      statusCode: 200,
+      message: "Cars retrieved successfully",
+      data: car,
+    });
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 export const carControllers = {
   createCar,
+  getAllCars,
 };
