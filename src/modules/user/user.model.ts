@@ -20,9 +20,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-userSchema.methods.comparePassword = async function (candidatePassword: string) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
+// userSchema.methods.comparePassword = async function (candidatePassword: string) {
+//   const pass = await bcrypt.compare(candidatePassword, this.password);
+//   console.log(pass);
+//   return await bcrypt.compare(candidatePassword, this.password);
+// };
 
 userSchema.post("save", function (doc, next) {
   doc.password = "";
@@ -41,4 +43,4 @@ userSchema.post("findOne", function (doc) {
   }
 });
 
-export const User = model("User", userSchema);
+export const User = model<TUser>("User", userSchema);
